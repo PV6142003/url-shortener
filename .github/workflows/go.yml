@@ -15,8 +15,13 @@ jobs:
         cache: true
 
     - name: Build
-      run: go build -v  # Builds main.go in root
+      run: go build -v
 
     - name: Test
+      shell: cmd
       run: |
-        if exist *_test.go (go test -v) else (echo "No tests found" && exit 0)
+        if exist *_test.go (
+          go test -v
+        ) else (
+          echo No tests found
+        )
