@@ -1,0 +1,15 @@
+name: Go CI  
+on: [push]  
+jobs:  
+  test:  
+    runs-on: windows-latest  # Windows runner (or ubuntu-latest for Linux)
+    steps:  
+      - uses: actions/checkout@v4  
+      - name: Set up Go  
+        uses: actions/setup-go@v4  
+        with:  
+          go-version: '1.24.1'  
+      - name: Build  
+        run: go build -v ./...  
+      - name: Test  
+        run: go test -v ./...  
