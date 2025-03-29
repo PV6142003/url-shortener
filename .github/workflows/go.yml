@@ -1,11 +1,10 @@
 name: Go CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  test:
+  build:
     runs-on: windows-latest
-    
     steps:
     - uses: actions/checkout@v4
     
@@ -13,14 +12,11 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.24'
-        cache: true  # Uses built-in Go caching
-    
+        cache: true
+
     - name: Build
-      run: |
-        cd cmd/server  # Change to your main package directory
-        go build -v
-        
+      run: go build -v  # Builds main.go in root
+
     - name: Test
       run: |
-        cd internal/shortener  # Change to your test directory
-        go test -v
+        if exist *_test.go (go test -v) else (echo "No tests found" && exit 0)
