@@ -1,8 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+
+	"github.com/PV6142003/url-shortener/internal/store"
+	"github.com/gorilla/mux"
+)
 
 func main() {
-    fmt.Println("URL Shortener starting...")
-    // Your code will go here
+	urlStore := store.NewURLStore()
+	r := mux.NewRouter()
+
+	// Routes
+	r.HandleFunc("/shorten", urlStore.HandleShorten).Methods("POST")
+	r.HandleFunc("/{shortCode}", urlStore.HandleRedirect)
+
+	log.Println("Server running on :8080...")
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
